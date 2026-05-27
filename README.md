@@ -6,7 +6,7 @@ Projeto de laboratório para construção de microsserviços com Java 21, Spring Boo
 
 ## Architecture
 
-![FacLovers Microservices Architecture](./docs/images/faclovers-microservices-architecture.png)
+![FacLovers Microservices Architecture](faclovers_microservices_architecture.png)
 
 O `auth-service` é o primeiro microserviço implementado. Ele cuida de cadastro de empresas, login com JWT, consulta de empresa, validação de existência e validação de token.
 
