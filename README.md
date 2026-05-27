@@ -2,15 +2,15 @@
 
 # FacLovers Microservices Lab
 
-Projeto de laboratÛrio para construÁ„o de microsserviÁos com Java 21, Spring Boot, PostgreSQL, Docker e boas pr·ticas de qualidade.
+Projeto para constru√ß√£o de microsservi√ßos com Java 21, Spring Boot, PostgreSQL, Docker e boas pr√°ticas de qualidade.
 
 ## Architecture
 
 ![FacLovers Microservices Architecture](faclovers_microservices_architecture.png)
 
-O `auth-service` È o primeiro microserviÁo implementado. Ele cuida de cadastro de empresas, login com JWT, consulta de empresa, validaÁ„o de existÍncia e validaÁ„o de token.
+O `auth-service` √© o primeiro microservi√ßo implementado. Ele cuida de cadastro de empresas, login com JWT, consulta de empresa, valida√ß√£o de exist√™ncia e valida√ß√£o de token.
 
-## ServiÁos
+## Servi√ßos
 
 - `auth-service`: implementado
 - `production-service`: previsto na arquitetura
@@ -18,13 +18,13 @@ O `auth-service` È o primeiro microserviÁo implementado. Ele cuida de cadastro d
 - `postgres-auth`: banco PostgreSQL do auth-service
 - `postgres-production`: banco PostgreSQL do production-service
 
-O Docker Compose completo referencia todos os serviÁos da arquitetura. Enquanto `production-service` e `indicator-service` ainda n„o existirem com Dockerfile, suba apenas o banco e o `auth-service`.
+O Docker Compose completo referencia todos os servi√ßos da arquitetura. Enquanto `production-service` e `indicator-service` ainda n√£o existirem com Dockerfile, suba apenas o banco e o `auth-service`.
 
-## Vari·veis De Ambiente
+## Vari√°veis De Ambiente
 
-O projeto usa vari·veis de ambiente por meio de `.env`.
+O projeto usa vari√°veis de ambiente por meio de `.env`.
 
-O arquivo `.env` n„o deve ser versionado. O arquivo `.env.example` deve ir para o GitHub como modelo seguro.
+O arquivo `.env` n√£o deve ser versionado. O arquivo `.env.example` deve ir para o GitHub como modelo seguro.
 
 Criar `.env` no Linux/macOS:
 
@@ -38,7 +38,7 @@ Criar `.env` no Windows PowerShell:
 Copy-Item .env.example .env
 ```
 
-Depois ajuste os valores locais conforme necess·rio.
+Depois ajuste os valores locais conforme necess√°rio.
 
 ## Portas
 
@@ -112,13 +112,13 @@ cd auth-service
 .\gradlew test
 ```
 
-## JaCoCo
+## Relat√≥rio dos testes
 
 ```powershell
 .\gradlew jacocoTestReport
 ```
 
-RelatÛrio HTML:
+Relat√≥rio HTML:
 
 ```text
 auth-service/build/reports/jacoco/test/html/index.html
@@ -126,14 +126,14 @@ auth-service/build/reports/jacoco/test/html/index.html
 
 ## SonarQube
 
-Configure as vari·veis:
+Configure as vari√°veis:
 
 ```powershell
 $env:SONAR_HOST_URL="http://localhost:9000"
 $env:SONAR_TOKEN="seu_token_aqui"
 ```
 
-Rodar an·lise:
+Rodar an√°lise:
 
 ```powershell
 cd auth-service
