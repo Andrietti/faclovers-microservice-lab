@@ -1,0 +1,100 @@
+services:
+  postgres-auth:
+    image: postgres:16-alpine
+    container_name: faclovers-auth-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${AUTH_DB_NAME}
+      POSTGRES_USER: ${AUTH_DB_USER}
+      POSTGRES_PASSWORD: ${AUTH_DB_PASSWORD}
+    ports:
+      - "${AUTH_DB_PORT}:5432"
+    volumes:
+      - auth_db_data:/var/lib/postgresql/data
+    networks:
+      - faclovers-network
+
+  postgres-production:
+    image: postgres:16-alpine
+    container_name: faclovers-production-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${PRODUCTION_DB_NAME}
+      POSTGRES_USER: ${PRODUCTION_DB_USER}
+      POSTGRES_PASSWORD: ${PRODUCTION_DB_PASSWORD}
+    ports:
+      - "${PRODUCTION_DB_PORT}:5432"
+    volumes:
+      - production_db_data:/var/lib/postgresql/data
+    networks:
+      - faclovers-network
+
+  auth-service:
+    build:
+      context: ./auth-service
+      dockerfile: Dockerfile
+    container_name: faclovers-auth-service
+    restart: unless-stopped
+    depends_on:
+      - postgres-auth
+    environment:
+      SERVER_PORT: ${AUTH_SERVICE_PORT}
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-auth:5432/${AUTH_DB_NAME}
+      SPRING_DATASOURCE_USERNAME: ${AUTH_DB_USER}
+      SPRING_DATASOURCE_PASSWORD: ${AUTH_DB_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_EXPIRATION_MINUTES: ${JWT_EXPIRATION_MINUTES}
+      SPRING_JPA_HIBERNATE_DDL_AUTO: ${SPRING_JPA_HIBERNATE_DDL_AUTO}
+      SPRING_JPA_SHOW_SQL: ${SPRING_JPA_SHOW_SQL}
+      SPRING_JPA_FORMAT_SQL: ${SPRING_JPA_FORMAT_SQL}
+    ports:
+      - "${AUTH_SERVICE_PORT}:${AUTH_SERVICE_PORT}"
+    networks:
+      - faclovers-network
+
+  production-service:
+    build:
+      context: ./production-service
+      dockerfile: Dockerfile
+    container_name: faclovers-production-service
+    restart: unless-stopped
+    depends_on:
+      - postgres-production
+      - auth-service
+    environment:
+      SERVER_PORT: ${PRODUCTION_SERVICE_PORT}
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-production:5432/${PRODUCTION_DB_NAME}
+      SPRING_DATASOURCE_USERNAME: ${PRODUCTION_DB_USER}
+      SPRING_DATASOURCE_PASSWORD: ${PRODUCTION_DB_PASSWORD}
+      AUTH_SERVICE_URL: http://auth-service:${AUTH_SERVICE_PORT}
+      SPRING_JPA_HIBERNATE_DDL_AUTO: ${SPRING_JPA_HIBERNATE_DDL_AUTO}
+      SPRING_JPA_SHOW_SQL: ${SPRING_JPA_SHOW_SQL}
+      SPRING_JPA_FORMAT_SQL: ${SPRING_JPA_FORMAT_SQL}
+    ports:
+      - "${PRODUCTION_SERVICE_PORT}:${PRODUCTION_SERVICE_PORT}"
+    networks:
+      - faclovers-network
+
+  indicator-service:
+    build:
+      context: ./indicator-service
+      dockerfile: Dockerfile
+    container_name: faclovers-indicator-service
+    restart: unless-stopped
+    depends_on:
+      - production-service
+    environment:
+      SERVER_PORT: ${INDICATOR_SERVICE_PORT}
+      PRODUCTION_SERVICE_URL: http://production-service:${PRODUCTION_SERVICE_PORT}
+    ports:
+      - "${INDICATOR_SERVICE_PORT}:${INDICATOR_SERVICE_PORT}"
+    networks:
+      - faclovers-network
+
+volumes:
+  auth_db_data:
+  production_db_data:
+
+networks:
+  faclovers-network:
+    driver: bridge

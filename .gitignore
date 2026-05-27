@@ -1,39 +1,15 @@
-HELP.md
-.gradle
-build/
-target/
-.scannerwork/
-!gradle/wrapper/gradle-wrapper.jar
-!**/src/main/**/build/
-!**/src/test/**/build/
-
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
-bin/
-!**/src/main/**/bin/
-!**/src/test/**/bin/
-
-### IntelliJ IDEA ###
-.idea
-*.iws
-*.iml
-*.ipr
-out/
-!**/src/main/**/out/
-!**/src/test/**/out/
-
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-
-### VS Code ###
+.env
+*.log
+.idea/
 .vscode/
+target/
+build/
+.gradle/
+out/
+.scannerwork/
+auth-service/build/
+auth-service/.gradle/
+production-service/build/
+production-service/.gradle/
+indicator-service/build/
+indicator-service/.gradle/
