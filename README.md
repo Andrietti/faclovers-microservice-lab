@@ -1,6 +1,12 @@
+
+
 # FacLovers Microservices Lab
 
 Projeto de laboratório para construção de microsserviços com Java 21, Spring Boot, PostgreSQL, Docker e boas práticas de qualidade.
+
+## Architecture
+
+![FacLovers Microservices Architecture](docs/images/faclovers-microservices-architecture.png)
 
 O `auth-service` é o primeiro microserviço implementado. Ele cuida de cadastro de empresas, login com JWT, consulta de empresa, validação de existência e validação de token.
 
