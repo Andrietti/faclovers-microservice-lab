@@ -58,6 +58,21 @@ tasks.named('jacocoTestReport') {
 	}
 }
 
+bootRun {
+	def envFiles = [file('../.env'), file('.env')]
+	def envFile = envFiles.find { it.exists() }
+
+	if (envFile != null) {
+		envFile.readLines().each { line ->
+			def trimmed = line.trim()
+
+			if (trimmed && !trimmed.startsWith('#') && trimmed.contains('=')) {
+				def parts = trimmed.split('=', 2)
+				environment parts[0].trim(), parts[1].trim()
+			}
+		}
+	}
+}
 sonar {
 	properties {
 		property 'sonar.projectKey', 'faclovers-auth-service'
